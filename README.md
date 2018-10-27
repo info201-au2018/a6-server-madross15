@@ -29,14 +29,21 @@ included in the repo.
    in the
    book.
    
-   You should know how to log in remotely, copy the files between
-   the server and your computer, and execute R scripts remotely.
+   You should know how to log in remotely, copy the files from your
+   computer to the server and back,
+   and your computer, and execute R scripts remotely.
  
 1. The data is located in `/opt/data`.  There are three
    temperature-precipitation files.  All have a similar structure.
    You have to work with the middle-sized one
-   (`temp_prec_small.csv.bz2`).  Please don't use the large one
-   (1960+) as processing that takes ~50% of the server's memory.
+   (`temp_prec_middle.csv.bz2`).  Please don't use the huge one the
+   days before the deadline
+   as it will take ~50% of the server's memory.  
+   
+   Also: it includes 170M observations, so just `read.csv()` takes
+   about 10 minutes.  (You may check out the faster `fread()` function in
+   _data.table_ package).
+
 
    From the command line, inspect the first few lines of data.  This
    contains [NOAA data](https://www.esrl.noaa.gov/psd/data/gridded/data.UDel_AirT_Precip.html) for land surface temperature and precipitation.
@@ -61,7 +68,7 @@ longitude,latitude,time,airtemp,precipitation
    land. 
 
 1. In order to facilitate testing, I have included a small test file
-   `temp_prec_subset.csv.bz2` in the same folder.  You may copy that file
+   `temp_prec_tiny.csv.bz2` in the same folder.  You may copy that file
    to your computer and use it for developing/testing the code. 
    
    *Pro tip:* Be sure to be on your local machine and **NOT** the server when pulling files off the server. 
@@ -71,12 +78,9 @@ Attempt to do the following steps by running it as a script
 as `Rscript maps.R` at bash prompt.  If this does not work well, you can also
 start an interactive R session and `source()` the file from there.
 
-*Pro tip:* For Windows machines especially, there is no `Rscript` command. Either set it with a PATH in your 
+*Pro tip:* For Windows machines especially, there is no `Rscript`
+command by default, unless you set certain environment variables.  Either set it with a PATH in your 
 local enviroment or run the script in RStudio. 
-
-Note: it includes 170M observations, so just `read.csv()` takes
-about 10 minutes.  (You may check out faster `fread()` function in
-_data.table_ package).
 
 1. Select the observations for North America.  You don't have to use
    the exact geographical borders, just broad latitude/longitude
@@ -100,7 +104,20 @@ _data.table_ package).
 
 1. Fill also out both sections in the `session.sh` file, describing
    which commands did you run.
-   
+
+6. And finally: publish your report on the internet!  Do this using
+   GitHub's _gh-pages_ branch (see for instance, [GH
+   documentation
+   here](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/).
+   Note: do this using _gh-pages_, **not through other 
+   alternativs** there.  This involves three steps: 
+    * create _gh_pages_ branch on your repo
+	* knit your report into html and rename the resulting html into
+      "README.html" 
+	* push your _gh-pages_ branch, and tell GH to publish the
+      _gh-pages_ branch ([see explanation
+      here](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/)) 
+
 That's it!
 
 
@@ -132,3 +149,48 @@ are using more than a single way).
 * it is a virtual machine with dynamic memory, so memory reports may be
   unreliable. 
   
+
+
+# Grading:
+
+* explore data from command line on server: **5**
+    - able to print and filter bz2-compressed files (2)
+    - able to use pipes and some of the following: pagers,
+      head/tail/... (3)
+  
+* copy data back and forth between the server and the local computer:
+  **5**
+    - commands/programs are used in a clean and meaningful way. (3)
+    - the user understands what (s)he is doing (2)
+
+* run R scripts on server: **5**
+    - uses R interactive session instead of `R cmd BATCH`/`Rscript`: -1
+
+* local code, run on laptop on test data: **20**
+  **only graded if the main code not done**
+    - code does not run: -14
+    - messy style: -2
+    - unclear comments: -2
+    - clear variable names: -2
+  
+* main code: **45**
+    - code does not run on the server: -40
+	- data does not load: -20
+	- all plots missing: -20
+	- some graphs missing: -10
+	- graphs do not look good: missing wrong labels, unclear color
+      coding...: -10
+	- geographic area incorrect: -10
+    - messy style: -3
+    - messy/unnecessary comments: -2
+    - unclear variable names: -2
+    - does not remove big dataset from memory: -5
+  
+* climate report: **20**
+    - (some) figures missing: -5
+    - messy/too short (less than 2 sentences) explanations: -5
+	- report not published on the internet as
+      http://yourusername.github.io/your-repo-name: -4
+	- report published through other means, not _gh\_pages_: -1
+
+* extra credit (`data.table::fread` parallel decompression): **4**
