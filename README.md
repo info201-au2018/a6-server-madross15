@@ -5,19 +5,22 @@ You use your laptop to develop the code and log in to the server,
 however, the calculations will be done on the server.
 
 Your task is to plot **temperature and precipitation maps** for **North
-America**, for **July** month **1960** (first year in the data), **1987** (in the
+America**, for **June** month **1960** (first year in the data), **1986** (in the
 middle of the observation period), and **2014** (the last year).
 These maps _must be plotted on the server_.
 
-Finally, you **create a report** in markdown where you include the
+Thereafter, you **create a report** in rmarkdown where you include the
 maps and briefly explain the data and your findings.  You also have to
 **submit the code**--an R script that you run on the server (must be
 run on the server, either from command line or from within R
 environment), 
 and a **session.sh** file where
 you include the shell commands you use on your laptop and on the
-server (this file does not have to be runnable).  The stubs of the three files are
+server (this file does not have to be runnable).  The stubs for the three files are
 included in the repo.
+
+Finally, you make you convert your report to html and make it
+visible to everyone through _gh\_pages_ branch on github.
 
 
 # The Problem
@@ -36,14 +39,9 @@ included in the repo.
 1. The data is located in `/opt/data`.  There are three
    temperature-precipitation files.  All have a similar structure.
    You have to work with the middle-sized one
-   (`temp_prec_middle.csv.bz2`).  Please don't use the huge one the
+   (`temp_prec_middle`).  Please don't use the huge one the
    days before the deadline
-   as it will take ~50% of the server's memory.  
-   
-   Also: it includes 170M observations, so just `read.csv()` takes
-   about 10 minutes.  (You may check out the faster `fread()` function in
-   _data.table_ package).
-
+   as it will take ~50% of the server's memory.
 
    From the command line, inspect the first few lines of data.  This
    contains [NOAA data](https://www.esrl.noaa.gov/psd/data/gridded/data.UDel_AirT_Precip.html) for land surface temperature and precipitation.
@@ -66,10 +64,16 @@ longitude,latitude,time,airtemp,precipitation
    are
    there but the values are missing.  There are also some missing values on
    land. 
+   
+3. The main data files are encrypted.  These can easily be decrypted
+   by something like `decryptedData <-
+   decrypt::decryptData(encryptedData)`.  _decrypt_ is a dedicated
+   library that is already installed on the server.
 
 1. In order to facilitate testing, I have included a small test file
    `temp_prec_tiny.csv.bz2` in the same folder.  You may copy that file
-   to your computer and use it for developing/testing the code. 
+   to your computer and use it for developing/testing the code.  This
+   data is not encrypted.
    
    *Pro tip:* Be sure to be on your local machine and **NOT** the server when pulling files off the server. 
    Think about the path that would be required on the server to access the file. 
@@ -80,13 +84,17 @@ start an interactive R session and `source()` the file from there.
 
 *Pro tip:* For Windows machines especially, there is no `Rscript`
 command by default, unless you set certain environment variables.  Either set it with a PATH in your 
-local enviroment or run the script in RStudio. 
+local enviroment or `source` the script in RStudio console. 
 
 1. Select the observations for North America.  You don't have to use
    the exact geographical borders, just broad latitude/longitude
    boundaries will do.
    
-1. Select only observations for July 1960, July 1987, July 2014.
+1. Select only observations for June 1960, June 1986, June 2014.
+
+3. In order to conserve the server's memory, delete the original full
+   dataset (you used for fitering years and area) from memory (check
+   the `rm` function).
 
 1. Make the maps: plot the longitude versus latitude, and color the
    tiles according to temperature or precipitation.  Do this for all
@@ -99,7 +107,7 @@ local enviroment or run the script in RStudio.
    
 1. Copy the map files from server to your laptop.
 
-1. Write a brief report where you explain what did you find.  (The
+1. Write a brief report as an rmarkdown file where you explain what did you find.  (The
    file _climate\_report.md_ gives you the stub).
 
 1. Fill also out both sections in the `session.sh` file, describing
@@ -112,7 +120,7 @@ local enviroment or run the script in RStudio.
    Note: do this using _gh-pages_, **not through other 
    alternativs** there.  This involves three steps: 
     * create _gh_pages_ branch on your repo
-	* knit your report into html and rename the resulting html into
+	* knit your report rmarkdown file into html and rename the resulting html into
       "README.html" 
 	* push your _gh-pages_ branch, and tell GH to publish the
       _gh-pages_ branch ([see explanation
@@ -128,8 +136,8 @@ friends).  However, read the file by automatic parallel decompression
 without decompressing it manually.  I.e. tell `fread` that the file
 should be decompressed in parallel.
 
-Compare the time it takes to read the data in different ways (if you
-are using more than a single way).
+Compare and report the time it takes to read the data in different ways.  You can
+use `system.time` function for it.
 
 
 ## Notes on the server:
@@ -141,7 +149,7 @@ are using more than a single way).
 * the data is in `/opt/data/`.
 
 * the server should have plenty of disk space (500G), but may be low
-  on memory (32G) if many people are working there at the same time.
+  on memory (38G) if many people are working there at the same time.
 
 * if you need to do something with superuser privileges, you have to
   contact Ott.
@@ -153,10 +161,10 @@ are using more than a single way).
 
 # Grading:
 
-* explore data from command line on server: **5**
+* explore data from command line on server: **4**
     - able to print and filter bz2-compressed files (2)
     - able to use pipes and some of the following: pagers,
-      head/tail/... (3)
+      head/tail/... (4)
   
 * copy data back and forth between the server and the local computer:
   **5**
@@ -171,14 +179,14 @@ are using more than a single way).
     - code does not run: -14
     - messy style: -2
     - unclear comments: -2
-    - clear variable names: -2
+    - unclear variable names: -2
   
-* main code: **45**
-    - code does not run on the server: -40
-	- data does not load: -20
-	- all plots missing: -20
+* main code: **66**
+    - code does not run on the server: -50
+	- data does not load: -25
+	- all plots missing: -25
 	- some graphs missing: -10
-	- graphs do not look good: missing wrong labels, unclear color
+	- graphs do not look good: missing or wrong labels, unclear color
       coding...: -10
 	- geographic area incorrect: -10
     - messy style: -3

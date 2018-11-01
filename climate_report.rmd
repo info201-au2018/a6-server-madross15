@@ -1,9 +1,15 @@
-# Climate Report
+---
+title: "Climate Report"
+subtitle: "Temperature and Precipitation 1960-2014"
+author: <your name here>
+date: <date here>
+output: html_document
+---
+### Data
 
-## North American Temperature and Precipitation, 1960-2014
+Tell which data we use (see the readme file) and for which purpose.
 
 ### Temperature
-
 
 insert your temperature images here.  You can put three plots on a
 single figure but the results will be tiny.  I recommend to use a
