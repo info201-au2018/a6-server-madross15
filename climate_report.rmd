@@ -7,28 +7,20 @@ output: html_document
 ---
 ### Data
 
-Tell which data we use (see the readme file) and for which purpose.
+  The graphs below show the **Temperature** and **Precipitation** of _North America_ from the years 1960, 1986 and 2014. Through these graphs you can see how **Temperature** and **Precipitation** have changed over the years in _North America_. From these maps we can not make long term conclusions about temperature and precipitation, but only estimates about how these factors have changed over the years.   
 
 ### Temperature
-
-insert your temperature images here.  You can put three plots on a
-single figure but the results will be tiny.  I recommend to use a
-separate figure for each year.
-
-comment the results.  Do the temperature patterns look reasonable?  Do
-you see major differences between years?
-
+![](graphs/map1960_airtemp.jpg)
+![](graphs/map1986_airtemp.jpg)
+![](graphs/map2014_airtemp.jpg)
+  From the three graphs the Temperature patterns do look reasonable. There is a slight difference between the years. From 1960 to 2014 temperature has sligghtly decreased, mainly in the Northern United States. You can see this change on the map through the areas that have gotten darker over th years. 
 
 ### Precipitation
+![](graphs/map1960_precipitation.jpg)
+![](graphs/map1986_precipitation.jpg)
+![](graphs/map2014_precipitation.jpg)
 
-insert your precipitation images here
-
-comment the results.  Do the precipitation patterns look reasonable?  Do
-you see major differences between years?
+  From the three graphs the precipitaiton patterns do look reasonable. There is a major difference between the years. From 1960 to 2014 precipitation has increased, mainly in the Southern United States and in Southern North America. You can see this through the increase in lighter parts on the map.  
 
 
-### Note: 
 
-you cannot do any conclusions about long-term trend based on just 3
-figures.  If you are interested, you are welcome to explore long-term
-trends in these data, but be sure to use more suitable methods.
